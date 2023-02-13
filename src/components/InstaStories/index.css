@@ -1,0 +1,11 @@
+.slick-prev:before,
+.slick-next:before {
+  color: #0553fa;
+}
+
+.story-loader {
+  height: 20vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
