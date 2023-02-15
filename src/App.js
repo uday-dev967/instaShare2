@@ -3,8 +3,8 @@ import {Route, Switch, Redirect} from 'react-router-dom'
 import './App.css'
 import LoginPage from './components/LoginPage'
 import Home from './components/Home'
-// import UserDetailsRoute from './components/UserDetailsRoute'
-// import MyProfile from './components/MyProfile'
+import UserProfile from './components/UserProfile'
+import Profile from './components/Profile'
 import NotFound from './components/NotFound'
 import ThemeSearchContext from './context/ThemeSearchContext'
 
@@ -71,12 +71,12 @@ class App extends Component {
           <Switch>
             <Route exact path="/login" component={LoginPage} />
             <ProtectedRoute exact path="/" component={Home} />
-            {/* <ProtectedRoute exact path="/my-profile" component={MyProfile} />
+            <ProtectedRoute exact path="/profile" component={Profile} />
             <ProtectedRoute
               exact
               path="/users/:userId"
-              component={UserDetailsRoute}
-            /> */}
+              component={UserProfile}
+            />
             <Route path="/not-found" component={NotFound} />
             <Redirect to="/not-found" />
           </Switch>

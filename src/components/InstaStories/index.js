@@ -72,7 +72,6 @@ class InstaStories extends Component {
     const {storiesList} = this.state
     const {isDarkTheme} = this.props
     const settings = {
-      arrows: true,
       dots: false,
       slidesToShow: 6,
       infinite: false,
@@ -97,7 +96,7 @@ class InstaStories extends Component {
           breakpoint: 480,
           settings: {
             slidesToShow: 4,
-            slidesToScroll: 1,
+            slidesToScroll: 2,
           },
         },
       ],

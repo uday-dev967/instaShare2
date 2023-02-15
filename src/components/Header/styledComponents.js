@@ -73,6 +73,11 @@ export const MenuContainer = styled.div`
     padding: 0px;
   }
 `
+export const MobileMenuContainer = styled.div`
+  @media screen and (min-width: 768px) {
+    display: none;
+  }
+`
 
 export const Menu = styled.ul`
   display: flex;

@@ -15,6 +15,7 @@ import {
   Heading,
   ThemeAndHamburgerContainer,
   ThemeAndMenuContainer,
+  MobileMenuContainer,
   MenuContainer,
   Menu,
   MenuBtn,
@@ -47,6 +48,20 @@ const Header = props => (
         searchInput,
         changeSearchValue,
       } = value
+      const {match} = props
+      console.log(match)
+      const {path} = match
+      const activePage = path.slice(1)
+      const activePageElement = btnList.filter(
+        each => each.pathLink === activePage,
+      )
+      if (activePageElement.length > 0) {
+        const activePageId = activePageElement[0].id
+        if (activeBtn !== activePageId) {
+          onChangeActiveBtn(activePageId)
+        }
+      }
+
       const onClickHam = () => {
         onClickHamburgerButton()
       }
@@ -65,6 +80,9 @@ const Header = props => (
       }
       const HamburgerClass = isDarkTheme ? 'light' : 'dark'
       const closeBtnClass = isDarkTheme ? 'light' : 'dark'
+      const onClickLogo = () => {
+        onChangeActiveBtn('HOME')
+      }
       const MenuButtonItem = details => {
         const {item, isActive} = details
         const {btnName, id, pathLink} = item
@@ -105,7 +123,12 @@ const Header = props => (
       return (
         <>
           <MobileHeaderContainer isdarktheme={isDarkTheme}>
-            <NavLinkItem isdarktheme={isDarkTheme} to="/" className="link-item">
+            <NavLinkItem
+              isdarktheme={isDarkTheme}
+              to="/"
+              onClick={onClickLogo}
+              className="link-item"
+            >
               <LogoAndHeadContainer>
                 <MobileLogo
                   src="https://res.cloudinary.com/dieyyopcy/image/upload/v1675164683/Standard_Collection_8_jklojp.png"
@@ -127,24 +150,26 @@ const Header = props => (
             </ThemeAndHamburgerContainer>
           </MobileHeaderContainer>
           {openMenu ? (
-            <MenuContainer isdarktheme={isDarkTheme}>
-              <Menu isdarktheme={isDarkTheme}>
-                {btnList.map(each => (
-                  <MenuButtonItem
-                    key={each.id}
-                    item={each}
-                    isActive={each.id === activeBtn}
+            <MobileMenuContainer>
+              <MenuContainer isdarktheme={isDarkTheme}>
+                <Menu isdarktheme={isDarkTheme}>
+                  {btnList.map(each => (
+                    <MenuButtonItem
+                      key={each.id}
+                      item={each}
+                      isActive={each.id === activeBtn}
+                    />
+                  ))}
+                  <LogoutBtn type="button" onClick={onClickLogout}>
+                    Logout
+                  </LogoutBtn>
+                  <AiFillCloseCircle
+                    className={`${closeBtnClass} close-btn`}
+                    onClick={onClickCloseBtn}
                   />
-                ))}
-                <LogoutBtn type="button" onClick={onClickLogout}>
-                  Logout
-                </LogoutBtn>
-                <AiFillCloseCircle
-                  className={`${closeBtnClass} close-btn`}
-                  onClick={onClickCloseBtn}
-                />
-              </Menu>
-            </MenuContainer>
+                </Menu>
+              </MenuContainer>
+            </MobileMenuContainer>
           ) : null}
           {showSearchBox ? (
             <SearchBarContainer isDarkTheme={isDarkTheme}>

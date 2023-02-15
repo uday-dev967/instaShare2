@@ -28,8 +28,8 @@ import ThemeSearchContext from '../../context/ThemeSearchContext'
 const PostItem = props => {
   const post = isDarkTheme => (
     <PostContext.Consumer>
-      {myValues => {
-        const {onChangeLikeIcon, onChangeUnLikeIcon} = myValues
+      {values => {
+        const {onChangeLikeIcon, onChangeUnLikeIcon} = values
         const {postItemDetails} = props
         const {
           postId,
@@ -49,12 +49,18 @@ const PostItem = props => {
         const onUnLike = () => {
           onChangeUnLikeIcon(postId)
         }
+        const linkColorClass = isDarkTheme
+          ? 'link-white-color'
+          : 'link-black-color'
         console.log(isDarkTheme)
 
         return (
           <>
             <PostItemContainer isDarkTheme={isDarkTheme}>
-              <Link to={`/users/${userId}`} className="post-link-item">
+              <Link
+                to={`/users/${userId}`}
+                className={`post-link-item ${linkColorClass}`}
+              >
                 <ImageUserContainer>
                   <ImageContainer>
                     <ImageBackgrond>
@@ -87,7 +93,13 @@ const PostItem = props => {
               <CommentsContainer>
                 {comments.map(each => (
                   <CommentContainer>
-                    <CommentUserName>{each.userName}</CommentUserName>
+                    <Link
+                      to={`/users/${each.userId}`}
+                      className={`post-link-item ${linkColorClass}`}
+                    >
+                      <CommentUserName>{each.userName}</CommentUserName>
+                    </Link>
+
                     <Comment>{each.comment}</Comment>
                   </CommentContainer>
                 ))}
