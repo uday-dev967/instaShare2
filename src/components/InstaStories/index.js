@@ -9,6 +9,11 @@ import {
   StoryImage,
   StoryName,
   MainContainer,
+  FailureViewContainer,
+  ImageTextContainer,
+  FailureImage,
+  WarningMessage,
+  RetryButton,
 } from './styledComponents'
 import './index.css'
 
@@ -19,14 +24,14 @@ const apiStatusConstants = {
   failure: 'FAILURE',
 }
 class InstaStories extends Component {
-  state = {apiStatus: apiStatusConstants.loading, storiesList: []}
+  state = {apiStatus: apiStatusConstants.initial, storiesList: []}
 
   componentDidMount() {
     this.getStories()
   }
 
   getStories = async () => {
-    this.setState({apiStatus: apiStatusConstants.loading})
+    this.setState({apiStatus: apiStatusConstants.inProgress})
     const jwtToken = Cookies.get('jwt_token')
     const url = 'https://apis.ccbp.in/insta-share/stories'
     const options = {
@@ -39,24 +44,45 @@ class InstaStories extends Component {
 
     const data = await response.json()
     if (response.ok === true) {
-      this.setState({apiStatus: apiStatusConstants.success})
-      console.log(data)
       const updatedData = data.users_stories.map(each => ({
         userId: each.user_id,
         storyUrl: each.story_url,
         userName: each.user_name,
       }))
-      this.setState({storiesList: updatedData})
+      this.setState({
+        apiStatus: apiStatusConstants.success,
+        storiesList: updatedData,
+      })
     } else {
       this.setState({apiStatus: apiStatusConstants.failure})
     }
   }
 
+  onRetry = () => {
+    this.setState({apiStatus: apiStatusConstants.initial}, this.getStories)
+  }
+
   renderFailureView = () => (
     <>
-      <div>
-        <h1>fail</h1>
-      </div>
+      <FailureViewContainer className="failure-view">
+        <ImageTextContainer>
+          <FailureImage
+            src="https://res.cloudinary.com/dieyyopcy/image/upload/v1676631535/Iconwarning2_n0jup1.png"
+            alt="failure view"
+            className="failure-img"
+          />
+          <WarningMessage className="failure-head">
+            Something went wrong. Please try again
+          </WarningMessage>
+        </ImageTextContainer>
+        <RetryButton
+          className="failure-button"
+          type="button"
+          onClick={this.onRetry}
+        >
+          Try again
+        </RetryButton>
+      </FailureViewContainer>
     </>
   )
 
@@ -73,11 +99,17 @@ class InstaStories extends Component {
     const {isDarkTheme} = this.props
     const settings = {
       dots: false,
-      slidesToShow: 6,
-      infinite: false,
+      slidesToShow: 7,
       speed: 500,
       slidesToScroll: 1,
       responsive: [
+        {
+          breakpoint: 2048,
+          settings: {
+            slidesToShow: 7,
+            slidesToScroll: 1,
+          },
+        },
         {
           breakpoint: 1024,
           settings: {
@@ -96,7 +128,7 @@ class InstaStories extends Component {
           breakpoint: 480,
           settings: {
             slidesToShow: 4,
-            slidesToScroll: 2,
+            slidesToScroll: 1,
           },
         },
       ],
@@ -126,7 +158,7 @@ class InstaStories extends Component {
     switch (apiStatus) {
       case apiStatusConstants.success:
         return this.renderSuccessView()
-      case apiStatusConstants.loading:
+      case apiStatusConstants.inProgress:
         return this.renderLoadingView()
       case apiStatusConstants.failure:
         return this.renderFailureView()

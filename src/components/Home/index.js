@@ -9,16 +9,9 @@ const Home = () => (
     {value => {
       const {
         isDarkTheme,
-        toggleTheme,
-        openMenu,
-        onClickHamburgerButton,
-        closeMenuButton,
-        showSearchBox,
-        activeBtn,
-        onChangeActiveBtn,
-        searchBox,
         searchInput,
-        changeSearchValue,
+        onClickSearchBtn,
+        isSearchBtnClicked,
       } = value
 
       return (
@@ -27,7 +20,12 @@ const Home = () => (
           <HomeContainer isDarkTheme={isDarkTheme}>
             <InstaStories isDarkTheme={isDarkTheme} />
             <InstaPostsContentContainer>
-              <InstaPosts />
+              <InstaPosts
+                searchInput={searchInput}
+                isDarkTheme={isDarkTheme}
+                onClickSearchBtn={onClickSearchBtn}
+                isSearchBtnClicked={isSearchBtnClicked}
+              />
             </InstaPostsContentContainer>
           </HomeContainer>
         </>

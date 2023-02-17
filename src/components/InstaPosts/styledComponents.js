@@ -17,9 +17,32 @@ export const MainContainer = styled.div`
     padding: 0px;
   }
 `
+export const SearchResultsContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+`
+
+export const SearchResults = styled.h1`
+  color: ${props => (props.isDarkTheme ? '#ffffff' : '#000000')};
+`
 
 export const PostsList = styled.ul`
   margin: 0px;
   padding: 0px;
   list-style-type: none;
 `
+
+export const FailureViewContainer = styled.div`
+  width: 100%;
+  height: 50vh;
+  text-align: center;
+  @media screen and (min-width: 756px) {
+    min-width: 580px;
+  }
+`
+
+export const FailureImage = styled.img``
+export const WarningMessage = styled.p``
+
+export const RetryButton = styled.button``

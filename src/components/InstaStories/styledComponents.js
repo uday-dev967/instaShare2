@@ -6,6 +6,7 @@ export const Stories = styled.div`
   justify-content: center;
   align-items: center;
   width: 100%;
+  padding: 10px;
 `
 export const MainContainer = styled.div`
   display: flex;
@@ -17,17 +18,20 @@ export const MainContainer = styled.div`
   }
 `
 
-export const StoriesContainer = styled.div`
+export const StoriesContainer = styled.ul`
   width: 80%;
   padding: 20px;
   max-width: 1100px;
   margin-top: 10px;
+  list-style-type: none;
+  margin: 0px;
+  padding: 0px;
   @media screen and (max-width: 576px) {
     width: 100%;
   }
 `
 
-export const SlickItem = styled.div`
+export const SlickItem = styled.li`
   width: 120px;
   display: inline-block;
   display: flex;
@@ -62,3 +66,22 @@ export const StoryName = styled.p`
     width: 100px;
   }
 `
+export const FailureViewContainer = styled.div`
+  width: 100%;
+  height: 28vh;
+  padding-bottom: 20px;
+  @media screen and (min-width: 756px) {
+    min-width: 580px;
+    display: flex;
+  }
+`
+export const ImageTextContainer = styled.div`
+  text-align: center;
+  @media screen and (max-width: 756px) {
+    font-size: 15px;
+  }
+`
+export const FailureImage = styled.img``
+export const WarningMessage = styled.p``
+
+export const RetryButton = styled.button``

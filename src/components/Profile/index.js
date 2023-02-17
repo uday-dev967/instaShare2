@@ -22,7 +22,7 @@ class Profile extends Component {
   }
 
   getProfileDetails = async () => {
-    this.setState({apiStatus: apiStatusConstants.loading})
+    this.setState({apiStatus: apiStatusConstants.inProgress})
     const jwtToken = Cookies.get('jwt_token')
     const url = 'https://apis.ccbp.in/insta-share/my-profile'
     const options = {
@@ -82,16 +82,16 @@ class Profile extends Component {
   onRetry = () => {
     this.setState(
       {apiStatus: apiStatusConstants.inProgress},
-      this.getMyProfileDetail,
+      this.getProfileDetails,
     )
   }
 
   renderFailureView = () => (
     <div className="failure-view">
       <img
-        src="https://res.cloudinary.com/dq7imhrvo/image/upload/v1643651534/insta%20Shere%20clone/alert-triangle_hczx0o.png"
+        src="https://res.cloudinary.com/dieyyopcy/image/upload/v1676631960/Group_7522severerror_qzvogn.png"
         alt="failure view"
-        className="failure-img"
+        className="failure-img-profile"
       />
       <p className="failure-head">Something went wrong. Please try again</p>
       <button className="failure-button" type="button" onClick={this.onRetry}>

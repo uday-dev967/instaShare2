@@ -1,7 +1,16 @@
 import {Component} from 'react'
 import Cookies from 'js-cookie'
 import Loader from 'react-loader-spinner'
-import {MainContainer, PostsList} from './styledComponents'
+import {
+  MainContainer,
+  PostsList,
+  SearchResultsContainer,
+  SearchResults,
+  FailureViewContainer,
+  FailureImage,
+  WarningMessage,
+  RetryButton,
+} from './styledComponents'
 import PostItem from '../PostItem'
 import PostContext from '../../context/PostContext'
 
@@ -26,13 +35,13 @@ class InstaPosts extends Component {
 
   getPostList = async () => {
     this.setState({apiStatus: apiStatusConstants.inProgress})
-
-    const Token = Cookies.get('jwt_token')
+    const {isSearchBtnClicked, searchInput} = this.props
+    const jwtToken = Cookies.get('jwt_token')
     const apiUrl = 'https://apis.ccbp.in/insta-share/posts'
     const options = {
       method: 'GET',
       headers: {
-        Authorization: `Bearer ${Token}`,
+        Authorization: `Bearer ${jwtToken}`,
       },
     }
     const response = await fetch(apiUrl, options)
@@ -71,13 +80,13 @@ class InstaPosts extends Component {
     this.setState(prev => ({
       button: !prev.button,
     }))
-    const token = Cookies.get('jwt_token')
+    const jwtToken = Cookies.get('jwt_token')
 
     const apiUrl = `https://apis.ccbp.in/insta-share/posts/${postId}/like`
     const post = {like_status: true}
     const options = {
       headers: {
-        Authorization: `Bearer ${token}`,
+        Authorization: `Bearer ${jwtToken}`,
       },
       body: JSON.stringify(post),
       method: 'POST',
@@ -100,12 +109,12 @@ class InstaPosts extends Component {
 
   onChangeUnLikeIcon = async postId => {
     this.setState(prev => ({button: !prev.button}))
-    const token = Cookies.get('jwt_token')
+    const jwtToken = Cookies.get('jwt_token')
     const apiUrl = `https://apis.ccbp.in/insta-share/posts/${postId}/like`
     const post = {like_status: false}
     const options = {
       headers: {
-        Authorization: `Bearer ${token}`,
+        Authorization: `Bearer ${jwtToken}`,
       },
       body: JSON.stringify(post),
       method: 'POST',
@@ -125,12 +134,28 @@ class InstaPosts extends Component {
     }))
   }
 
+  onRetry = () => {
+    this.setState({apiStatus: apiStatusConstants.inProgress}, this.getPostList)
+  }
+
   renderFailureView = () => (
-    <>
-      <div>
-        <h1>fail</h1>
-      </div>
-    </>
+    <FailureViewContainer className="failure-view">
+      <FailureImage
+        src="https://res.cloudinary.com/dieyyopcy/image/upload/v1676631535/Iconwarning2_n0jup1.png"
+        alt="failure view"
+        className="failure-img"
+      />
+      <WarningMessage className="failure-head">
+        Something went wrong. Please try again
+      </WarningMessage>
+      <RetryButton
+        className="failure-button"
+        type="button"
+        onClick={this.onRetry}
+      >
+        Try again
+      </RetryButton>
+    </FailureViewContainer>
   )
 
   renderLoadingView = () => (
@@ -142,8 +167,15 @@ class InstaPosts extends Component {
   )
 
   renderSuccessView = () => {
-    const {postsData} = this.state
-    const {isDarkTheme} = this.props
+    let {postsData} = this.state
+    const {isDarkTheme, isSearchBtnClicked, searchInput} = this.props
+    if (isSearchBtnClicked) {
+      postsData = postsData.filter(each =>
+        each.postDetails.caption
+          .toLowerCase()
+          .includes(searchInput.toLowerCase()),
+      )
+    }
     return (
       <PostContext.Provider
         value={{
@@ -177,11 +209,18 @@ class InstaPosts extends Component {
   }
 
   render() {
-    const {isDarkTheme} = this.props
+    const {isDarkTheme, isSearchBtnClicked} = this.props
     return (
-      <MainContainer isDarkTheme={isDarkTheme}>
-        {this.renderViews()}
-      </MainContainer>
+      <SearchResultsContainer>
+        {isSearchBtnClicked ? (
+          <SearchResults isDarkTheme={isDarkTheme}>
+            Search Results
+          </SearchResults>
+        ) : null}
+        <MainContainer isDarkTheme={isDarkTheme}>
+          {this.renderViews()}
+        </MainContainer>
+      </SearchResultsContainer>
     )
   }
 }

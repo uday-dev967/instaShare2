@@ -3,7 +3,7 @@ import styled from 'styled-components'
 import {Link} from 'react-router-dom'
 
 export const MobileHeaderContainer = styled.div`
-  background-color: ${props => (props.isdarktheme ? '#000000' : '#ffffff')};
+  background-color: ${props => (props.isDarkTheme ? '#000000' : '#ffffff')};
   width: 100%;
   padding: 10px;
   display: flex;
@@ -14,7 +14,7 @@ export const MobileHeaderContainer = styled.div`
   }
 `
 export const LargeScreenHeaderContainer = styled.div`
-  background-color: ${props => (props.isdarktheme ? '#000000' : '#ffffff')};
+  background-color: ${props => (props.isDarkTheme ? '#000000' : '#ffffff')};
   width: 100%;
   padding: 10px 50px 10px 50px;
   display: flex;
@@ -61,12 +61,12 @@ export const NavLinkItem = styled(Link)`
   display: flex;
   align-items: center;
   text-decoration: none;
-  color: ${props => (props.isdarktheme ? '#ffffff' : '#475569')};
+  color: ${props => (props.isDarkTheme ? '#ffffff' : '#475569')};
 `
 
 export const MenuContainer = styled.div`
   display: flex;
-  background-color: ${props => (props.isdarktheme ? '#000000' : '#ffffff')};
+  background-color: ${props => (props.isDarkTheme ? '#000000' : '#ffffff')};
   justify-content: center;
   @media screen and (min-width: 768px) {
     margin: 0px;
@@ -81,10 +81,10 @@ export const MobileMenuContainer = styled.div`
 
 export const Menu = styled.ul`
   display: flex;
-  background-color: ${props => (props.isdarktheme ? '#000000' : '#ffffff')};
+  background-color: ${props => (props.isDarkTheme ? '#000000' : '#ffffff')};
   justify-content: space-between;
   width: 300px;
-  color: ${props => (props.isdarktheme ? '#f9f9f9' : '#0f0f0f')};
+  color: ${props => (props.isDarkTheme ? '#f9f9f9' : '#0f0f0f')};
   padding: 0px;
   list-style-type: none;
 `
@@ -93,7 +93,7 @@ export const MenuBtn = styled.button`
   border: none;
   background-color: transparent;
   color: ${props =>
-    props.isdarktheme
+    props.isDarkTheme
       ? props.isActive
         ? '#0a7efa'
         : '#ffffff'

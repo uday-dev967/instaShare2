@@ -17,6 +17,8 @@ const ThemeSearchContext = React.createContext({
   searchBox: () => {},
   closeMenuButton: () => {},
   onChangeActiveBtn: () => {},
+  onClickSearchBtn: () => {},
+  isSearchBtnClicked: false,
 })
 
 export default ThemeSearchContext

@@ -38,10 +38,10 @@ export const ImageContainer = styled.div`
 export const ProfilePic = styled.img`
   width: 50px;
   height: 50px;
-  border-radius: 24px;
+  border-radius: 25px;
   @media screen and (max-width: 576px) {
-    width: 32px;
-    height: 32px;
+    width: 35px;
+    height: 35px;
   }
 `
 export const ImageBackgrond = styled.div`

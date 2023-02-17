@@ -18,6 +18,7 @@ class App extends Component {
     searchPostView: false,
     showSearchBox: false,
     activeBtn: 'HOME',
+    isSearchBtnClicked: false,
   }
 
   closeMenuButton = () => {
@@ -32,6 +33,15 @@ class App extends Component {
     this.setState(prev => ({searchPostView: !prev.searchPostView}))
   }
 
+  onClickSearchBtn = () => {
+    const {searchInput} = this.state
+    if (searchInput !== '') {
+      this.setState({isSearchBtnClicked: true})
+    } else {
+      this.setState({isSearchBtnClicked: false})
+    }
+  }
+
   onClickHamburgerButton = () => {
     this.setState(prev => ({openMenu: !prev.openMenu}))
   }
@@ -44,7 +54,22 @@ class App extends Component {
   }
 
   onChangeActiveBtn = id => {
-    this.setState({activeBtn: id, openMenu: false})
+    this.setState({
+      activeBtn: id,
+      openMenu: false,
+    })
+  }
+
+  onClickHomeLogo = () => {
+    this.setState({
+      isDarkTheme: false,
+      searchInput: '',
+      openMenu: false,
+      searchPostView: false,
+      showSearchBox: false,
+      activeBtn: 'HOME',
+      isSearchBtnClicked: false,
+    })
   }
 
   toggleTheme = () => {
@@ -52,7 +77,14 @@ class App extends Component {
   }
 
   render() {
-    const {isDarkTheme, openMenu, activeBtn, showSearchBox} = this.state
+    const {
+      isDarkTheme,
+      openMenu,
+      activeBtn,
+      searchInput,
+      showSearchBox,
+      isSearchBtnClicked,
+    } = this.state
     return (
       <>
         <ThemeSearchContext.Provider
@@ -66,6 +98,11 @@ class App extends Component {
             onChangeActiveBtn: this.onChangeActiveBtn,
             searchBox: this.searchBox,
             showSearchBox,
+            searchInput,
+            onClickSearchBtn: this.onClickSearchBtn,
+            isSearchBtnClicked,
+            onChangeSearchInput: this.onChangeSearchInput,
+            onClickHomeLogo: this.onClickHomeLogo,
           }}
         >
           <Switch>

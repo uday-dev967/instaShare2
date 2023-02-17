@@ -46,8 +46,18 @@ const Header = props => (
         onChangeActiveBtn,
         searchBox,
         searchInput,
-        changeSearchValue,
+        onChangeSearchInput,
+        onClickSearchBtn,
+        onClickHomeLogo,
       } = value
+      const onChangeSearchValue = event => {
+        onChangeSearchInput(event.target.value)
+      }
+      const onClickSearchBtnIcon = () => {
+        const {history} = props
+        history.replace('/')
+        onClickSearchBtn()
+      }
       const {match} = props
       console.log(match)
       const {path} = match
@@ -90,6 +100,8 @@ const Header = props => (
           onChangeActiveBtn(id)
         }
         const onClickMenuSearchBtn = () => {
+          const {history} = props
+          history.replace('/')
           searchBox()
         }
 
@@ -98,7 +110,7 @@ const Header = props => (
             <li className="search-menu-btn">
               <MenuBtn
                 isActive={isActive}
-                isdarktheme={isDarkTheme}
+                isDarkTheme={isDarkTheme}
                 onClick={onClickMenuSearchBtn}
               >
                 {btnName}
@@ -111,7 +123,7 @@ const Header = props => (
             <NavLinkItem to={`/${pathLink}`}>
               <MenuBtn
                 isActive={isActive}
-                isdarktheme={isDarkTheme}
+                isDarkTheme={isDarkTheme}
                 onClick={onClickMenuBtn}
               >
                 {btnName}
@@ -122,14 +134,14 @@ const Header = props => (
       }
       return (
         <>
-          <MobileHeaderContainer isdarktheme={isDarkTheme}>
+          <MobileHeaderContainer isDarkTheme={isDarkTheme}>
             <NavLinkItem
-              isdarktheme={isDarkTheme}
+              isDarkTheme={isDarkTheme}
               to="/"
               onClick={onClickLogo}
               className="link-item"
             >
-              <LogoAndHeadContainer>
+              <LogoAndHeadContainer onClick={onClickHomeLogo}>
                 <MobileLogo
                   src="https://res.cloudinary.com/dieyyopcy/image/upload/v1675164683/Standard_Collection_8_jklojp.png"
                   alt="website logo"
@@ -151,8 +163,8 @@ const Header = props => (
           </MobileHeaderContainer>
           {openMenu ? (
             <MobileMenuContainer>
-              <MenuContainer isdarktheme={isDarkTheme}>
-                <Menu isdarktheme={isDarkTheme}>
+              <MenuContainer isDarkTheme={isDarkTheme}>
+                <Menu isDarkTheme={isDarkTheme}>
                   {btnList.map(each => (
                     <MenuButtonItem
                       key={each.id}
@@ -177,16 +189,19 @@ const Header = props => (
                 <Input
                   type="search"
                   value={searchInput}
-                  onChange={changeSearchValue}
+                  onChange={onChangeSearchValue}
                   placeholder="Search by Caption"
                 />
-                <FaSearch className="search-icon" />
+                <FaSearch
+                  className="search-icon"
+                  onClick={onClickSearchBtnIcon}
+                />
               </SearchBar>
             </SearchBarContainer>
           ) : null}
-          <LargeScreenHeaderContainer isdarktheme={isDarkTheme}>
-            <NavLinkItem isdarktheme={isDarkTheme} to="/" className="link-item">
-              <LogoAndHeadContainer>
+          <LargeScreenHeaderContainer isDarkTheme={isDarkTheme}>
+            <NavLinkItem isDarkTheme={isDarkTheme} to="/" className="link-item">
+              <LogoAndHeadContainer onClick={onClickHomeLogo}>
                 <MobileLogo
                   src="https://res.cloudinary.com/dieyyopcy/image/upload/v1675164683/Standard_Collection_8_jklojp.png"
                   alt="website logo"
@@ -200,10 +215,13 @@ const Header = props => (
                   <Input
                     type="search"
                     value={searchInput}
-                    onChange={changeSearchValue}
+                    onChange={onChangeSearchValue}
                     placeholder="Search by Caption"
                   />
-                  <FaSearch className="search-icon" />
+                  <FaSearch
+                    className="search-icon"
+                    onClick={onClickSearchBtnIcon}
+                  />
                 </SearchBar>
               </SearchBarContainer>
               {isDarkTheme ? (
@@ -211,8 +229,8 @@ const Header = props => (
               ) : (
                 <FaMoon onClick={onClickThemeBtn} />
               )}
-              <MenuContainer isdarktheme={isDarkTheme}>
-                <Menu isdarktheme={isDarkTheme}>
+              <MenuContainer isDarkTheme={isDarkTheme}>
+                <Menu isDarkTheme={isDarkTheme}>
                   {btnList.map(each => (
                     <MenuButtonItem
                       key={each.id}
